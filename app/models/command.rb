@@ -17,6 +17,9 @@ class Command < ApplicationRecord
     when "/dance"
       dance_party = Slackmos::Commands::DanceParty.new(self)
       postback_message(image_response(dance_party.results))
+    when "/define"
+      definition = Slackmos::Commands::UrbanDictionary.new(self)
+      postback_message(definition.response_message)
     when "/classic"
       favstar = Slackmos::Commands::Favstar.new(self)
       text = favstar.tweet

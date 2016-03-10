@@ -13,7 +13,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.include(WebMock)
+  config.include(WebMock::API)
   config.before do
     WebMock.disable_net_connect!
   end
