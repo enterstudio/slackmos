@@ -20,7 +20,7 @@ class Command < ApplicationRecord
     when "/classic"
       favstar = Slackmos::Commands::Favstar.new(self)
       text = favstar.tweet
-      text = "No tweets for #{command_text}" if favstar.tweets.empty?
+      text = "No classic tweets from #{command_text}" if favstar.tweets.empty?
       postback_message(response_type: "in_channel", text: text)
     when "/img", "/animate"
       google_images = Slackmos::Commands::GoogleImages.new(self)
