@@ -3,8 +3,28 @@ module Slackmos
     # Random motivational dance images
     # rubocop:disable Metrics/ClassLength
     class DanceParty
+      attr_reader :command, :title
+      def initialize(command)
+        @title   = "Dance Party :dancer: :confetti_ball:"
+        @command = command
+      end
+
       def image
         self.class.images.sample
+      end
+
+      def count
+        result = rand(1..5)
+        matches = command.command_text.match(/x(\d+)/)
+        if matches
+          result = Integer(matches[1])
+        end
+        result = 3 if result > 10
+        result
+      end
+
+      def results
+        (1..count).map { image }
       end
 
       # rubocop:disable Metrics/MethodLength

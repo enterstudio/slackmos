@@ -7,13 +7,11 @@ class Command < ApplicationRecord
   def run
     case command
     when "/jesus"
-      jesus = Slackmos::Commands::Jesus.new
-      title = "Let Jesus be your guide."
-      postback_message(image_response(title, jesus.image))
+      jesus = Slackmos::Commands::Jesus.new(self)
+      postback_message(image_response(jesus.results))
     when "/dance"
-      dance_party = Slackmos::Commands::DanceParty.new
-      title = "Dance Party :dancer: :confetti_ball:"
-      postback_message(image_response(title, dance_party.image))
+      dance_party = Slackmos::Commands::DanceParty.new(self)
+      postback_message(image_response(dance_party.results))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
@@ -23,17 +21,17 @@ class Command < ApplicationRecord
     { response_type: "in_channel" }
   end
 
-  def image_response(title, uri)
+  def image_response(uris)
     {
       response_type: "in_channel",
-      attachments: [
+      attachments: uris.map do |uri|
         {
           text: " ",
           color: "#ffffff",
           falbackk: "Unable to load that image, sorry.",
           image_url: uri
         }
-      ]
+      end
     }
   end
 

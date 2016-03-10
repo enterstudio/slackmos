@@ -2,8 +2,28 @@ module Slackmos
   module Commands
     # Random help jesus images
     class Jesus
+      attr_reader :command, :title
+      def initialize(command)
+        @title   = "Let Jesus be your guide."
+        @command = command
+      end
+
       def image
         self.class.images.sample
+      end
+
+      def count
+        result = 1
+        matches = command.command_text.match(/x(\d+)/)
+        if matches
+          result = Integer(matches[1])
+        end
+        result = 3 if result > 10
+        result
+      end
+
+      def results
+        (1..count).map { image }
       end
 
       # rubocop:disable Metrics/MethodLength
