@@ -3,9 +3,8 @@ module Slackmos
     # Random motivational dance images
     # rubocop:disable Metrics/ClassLength
     class DanceParty
-      attr_reader :command, :title
+      attr_reader :command
       def initialize(command)
-        @title   = "Dance Party :dancer: :confetti_ball:"
         @command = command
       end
 

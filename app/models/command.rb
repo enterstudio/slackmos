@@ -4,18 +4,26 @@ class Command < ApplicationRecord
 
   before_validation :extract_cli_args, on: :create
 
+  # rubocop:disable Metrics/AbcSize
   def run
     case command
+    when "/pugs"
+      pugs = Slackmos::Commands::Pugs.new(self)
+      postback_message(image_response(pugs.results))
     when "/jesus"
       jesus = Slackmos::Commands::Jesus.new(self)
       postback_message(image_response(jesus.results))
     when "/dance"
       dance_party = Slackmos::Commands::DanceParty.new(self)
       postback_message(image_response(dance_party.results))
+    when "/img", "/animate"
+      google_images = Slackmos::Commands::GoogleImages.new(self)
+      postback_message(image_response(google_images.results))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def default_response
     { response_type: "in_channel" }

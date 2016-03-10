@@ -2,9 +2,8 @@ module Slackmos
   module Commands
     # Random help jesus images
     class Jesus
-      attr_reader :command, :title
+      attr_reader :command
       def initialize(command)
-        @title   = "Let Jesus be your guide."
         @command = command
       end
 

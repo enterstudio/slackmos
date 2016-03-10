@@ -4,8 +4,6 @@ ENV["SLACK_SLASH_COMMAND_TOKEN"] = "secret-slack-token"
 require "webmock"
 require "sidekiq/testing"
 
-WebMock.disable_net_connect!
-
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -16,6 +14,9 @@ RSpec.configure do |config|
   end
 
   config.include(WebMock)
+  config.before do
+    WebMock.disable_net_connect!
+  end
 
   # rubocop:disable Metrics/LineLength
   def slack_omniauth_hash_for_atmos
