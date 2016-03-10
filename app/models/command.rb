@@ -8,10 +8,10 @@ class Command < ApplicationRecord
     case command
     when "/jesus"
       jesus = Slackmos::Commands::Jesus.new
-      postback_message(image_response(jesus.image))
+      postback_message(image_response("Jesus", jesus.image))
     when "/dance"
       dance_party = Slackmos::Commands::DanceParty.new
-      postback_message(image_response(dance_party.image))
+      postback_message(image_response("Dance Party!", dance_party.image))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
@@ -21,11 +21,15 @@ class Command < ApplicationRecord
     { response_type: "in_channel" }
   end
 
-  def image_response(uri)
+  def image_response(title, uri)
     {
       response_type: "in_channel",
       attachments: [
         {
+          text: title,
+          title: title,
+          color: "#000000",
+          falbackk: "Unable to load that image, sorry.",
           image_url: uri
         }
       ]
