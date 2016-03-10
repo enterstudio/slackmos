@@ -18,7 +18,7 @@ module Slackmos
         if matches
           result = Integer(matches[1])
         end
-        result = 1 if result > 5
+        result = 1 if result > 10
         result
       end
 
