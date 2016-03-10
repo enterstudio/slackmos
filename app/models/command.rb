@@ -8,10 +8,12 @@ class Command < ApplicationRecord
     case command
     when "/jesus"
       jesus = Slackmos::Commands::Jesus.new
-      postback_message(image_response("Jesus", jesus.image))
+      title = "Let Jesus be your guide."
+      postback_message(image_response(title, jesus.image))
     when "/dance"
       dance_party = Slackmos::Commands::DanceParty.new
-      postback_message(image_response("Dance Party!", dance_party.image))
+      title = "Dance Party :dancer: :confetti_ball:"
+      postback_message(image_response(title, dance_party.image))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
@@ -28,7 +30,7 @@ class Command < ApplicationRecord
         {
           text: title,
           title: title,
-          color: "#000000",
+          color: "#ffffff",
           falbackk: "Unable to load that image, sorry.",
           image_url: uri
         }
