@@ -5,6 +5,7 @@ class Command < ApplicationRecord
   before_validation :extract_cli_args, on: :create
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
   def run
     case command
     when "/pug"
@@ -18,7 +19,9 @@ class Command < ApplicationRecord
       postback_message(image_response(dance_party.results))
     when "/classic"
       favstar = Slackmos::Commands::Favstar.new(self)
-      postback_message(response_type: "in_channel", text: favstar.tweet)
+      text = favstar.tweet
+      text = "No tweets for #{command_text}" if favstar.tweets.empty?
+      postback_message(response_type: "in_channel", text: text)
     when "/img", "/animate"
       google_images = Slackmos::Commands::GoogleImages.new(self)
       postback_message(image_response(google_images.results))

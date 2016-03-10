@@ -20,4 +20,19 @@ RSpec.describe Slackmos::Commands::Favstar, type: :model do
       end
     end.to_not raise_error
   end
+
+  it "handles users 404s on favstar" do
+    username = SecureRandom.hex(24)
+    command = command_for(username)
+    handler = Slackmos::Commands::Favstar.new(command)
+
+    four_of_four = File.read(File.join(fixture_path, "404.html"))
+
+    stub_request(:get, "https://favstar.fm/users/#{username}")
+      .to_return(status: 404, body: four_of_four, headers: {})
+
+    expect do
+      expect(handler.tweets).to be_empty
+    end.to_not raise_error
+  end
 end
