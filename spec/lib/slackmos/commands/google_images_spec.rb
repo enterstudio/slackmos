@@ -18,11 +18,11 @@ RSpec.describe Slackmos::Commands::GoogleImages, type: :model do
     stub_request(:get, "#{handler.callback_url}#{query_string}")
       .to_return(status: 200, body: pug_json, headers: {})
 
-    expect do
-      handler.results.each do |result|
+    handler.results.each do |result|
+      expect do
         Addressable::URI.parse(result)
-      end
-    end.to_not raise_error
+      end.to_not raise_error
+    end
   end
 
   it "gets a random top animated gif from google images api" do
@@ -40,10 +40,10 @@ RSpec.describe Slackmos::Commands::GoogleImages, type: :model do
     stub_request(:get, "#{handler.callback_url}#{query_string}")
       .to_return(status: 200, body: corgis_json, headers: {})
 
-    expect do
-      handler.results.each do |result|
+    handler.results.each do |result|
+      expect do
         Addressable::URI.parse(result)
-      end
-    end.to_not raise_error
+      end.to_not raise_error
+    end
   end
 end

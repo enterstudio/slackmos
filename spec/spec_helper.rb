@@ -1,6 +1,10 @@
 ENV["SLACK_APP_URL"] = "https://slack.com/apps/manage/A0QS72-slash-hubot-deploy"
 ENV["SLACK_SLASH_COMMAND_TOKEN"] = "secret-slack-token"
 
+ENV["GOOGLE_CSE_ID"]      = "cse_id"
+ENV["GOOGLE_CSE_KEY"]     = "cse_key"
+ENV["GOOGLE_SAFE_SEARCH"] = "off"
+
 require "webmock"
 require "sidekiq/testing"
 
