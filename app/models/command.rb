@@ -28,7 +28,6 @@ class Command < ApplicationRecord
       response_type: "in_channel",
       attachments: [
         {
-          title: title,
           color: "#ffffff",
           falbackk: "Unable to load that image, sorry.",
           image_url: uri
