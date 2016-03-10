@@ -24,6 +24,9 @@ class Command < ApplicationRecord
     when "/define"
       definition = Slackmos::Commands::UrbanDictionary.new(self)
       postback_message(definition.response_message)
+    when "/eventbrite"
+      definition = Slackmos::Commands::Eventbrite.new(self)
+      postback_message(definition.response_message)
     when "/classic"
       favstar = Slackmos::Commands::Favstar.new(self)
       text = favstar.tweet
