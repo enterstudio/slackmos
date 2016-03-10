@@ -5,6 +5,7 @@ class Command < ApplicationRecord
   before_validation :extract_cli_args, on: :create
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/CyclomaticComplexity
   def run
     case command
@@ -28,6 +29,9 @@ class Command < ApplicationRecord
     when "/img", "/animate"
       google_images = Slackmos::Commands::GoogleImages.new(self)
       postback_message(image_response(google_images.results))
+    when "/pizza"
+      pizza = Slackmos::Commands::Pizza.new(self)
+      postback_message(image_response(pizza.results))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
@@ -46,7 +50,7 @@ class Command < ApplicationRecord
           text: " ",
           color: "#ffffff",
           falbackk: "Unable to load that image, sorry.",
-          image_url: uri
+          image_url: Slackmos::Commands.camo_uri(uri)
         }
       end
     }

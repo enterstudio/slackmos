@@ -13,7 +13,7 @@ RSpec.describe Slackmos::Commands::Jesus, type: :model do
 
   it "gets n jesus images" do
     command = command_for("x7")
-    handler = Slackmos::Commands::DanceParty.new(command)
+    handler = Slackmos::Commands::Jesus.new(command)
 
     expect(handler.results.size).to eql(7)
     handler.results.each do |uri|

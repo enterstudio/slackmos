@@ -21,7 +21,7 @@ module Slackmos
       end
 
       def image
-        Slackmos::Commands.camo_uri(images.sample)
+        images.sample
       end
 
       def count
