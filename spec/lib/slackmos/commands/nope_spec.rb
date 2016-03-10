@@ -1,18 +1,18 @@
 require "rails_helper"
 
-RSpec.describe Slackmos::Commands::Pizza, type: :model do
-  it "gets a pizza image" do
+RSpec.describe Slackmos::Commands::Nope, type: :model do
+  it "gets a nope image" do
     command = command_for("")
-    handler = Slackmos::Commands::Pizza.new(command)
+    handler = Slackmos::Commands::Nope.new(command)
 
     expect do
       Addressable::URI.parse(handler.image)
     end.to_not raise_error
   end
 
-  it "gets n pizza images" do
+  it "gets n nope images" do
     command = command_for("x7")
-    handler = Slackmos::Commands::Pizza.new(command)
+    handler = Slackmos::Commands::Nope.new(command)
 
     expect(handler.results.size).to eql(7)
     handler.results.each do |uri|

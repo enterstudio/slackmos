@@ -18,6 +18,9 @@ class Command < ApplicationRecord
     when "/dance"
       dance_party = Slackmos::Commands::DanceParty.new(self)
       postback_message(image_response(dance_party.results))
+    when "/nope", "/yep"
+      nope = Slackmos::Commands::Nope.new(self)
+      postback_message(image_response(nope.results))
     when "/define"
       definition = Slackmos::Commands::UrbanDictionary.new(self)
       postback_message(definition.response_message)
