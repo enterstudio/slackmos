@@ -16,6 +16,9 @@ class Command < ApplicationRecord
     when "/dance"
       dance_party = Slackmos::Commands::DanceParty.new(self)
       postback_message(image_response(dance_party.results))
+    when "/classic"
+      favstar = Slackmos::Commands::Favstar.new(self)
+      postback_message(response_type: "in_channel", text: favstar.tweet)
     when "/img", "/animate"
       google_images = Slackmos::Commands::GoogleImages.new(self)
       postback_message(image_response(google_images.results))
