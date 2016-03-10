@@ -1,6 +1,11 @@
 ENV["SLACK_APP_URL"] = "https://slack.com/apps/manage/A0QS72-slash-hubot-deploy"
 ENV["SLACK_SLASH_COMMAND_TOKEN"] = "secret-slack-token"
 
+require "webmock"
+require "sidekiq/testing"
+
+WebMock.disable_net_connect!
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -9,6 +14,8 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+
+  config.include(WebMock)
 
   # rubocop:disable Metrics/LineLength
   def slack_omniauth_hash_for_atmos

@@ -5,7 +5,16 @@ class Command < ApplicationRecord
   before_validation :extract_cli_args, on: :create
 
   def run
-    Rails.logger.info "Running command #{id}"
+    case command
+    when "/jesus"
+      jesus = Slackmos::Commands::Jesus.new
+      postback_message(text: jesus.image, response_type: "in_channel")
+    when "/dance"
+      jesus = Slackmos::Commands::Jesus.new
+      postback_message(text: jesus.image, response_type: "in_channel")
+    else
+      Rails.logger.info "Unhandled command #{id}"
+    end
   end
 
   def default_response
@@ -31,7 +40,11 @@ class Command < ApplicationRecord
   end
 
   def client
-    @client ||= Faraday.new(url: "https://hooks.slack.com")
+    @client ||= begin
+                  Faraday.new(url: "https://hooks.slack.com") do |faraday|
+                    faraday.adapter Faraday.default_adapter
+                  end
+                end
   end
 
   def extract_cli_args
