@@ -7,7 +7,7 @@ class Command < ApplicationRecord
   # rubocop:disable Metrics/AbcSize
   def run
     case command
-    when "/pugs"
+    when "/pug"
       pugs = Slackmos::Commands::Pugs.new(self)
       postback_message(image_response(pugs.results))
     when "/jesus"
