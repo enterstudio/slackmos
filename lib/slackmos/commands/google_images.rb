@@ -2,22 +2,27 @@ module Slackmos
   module Commands
     # Random Images from Google
     class GoogleImages
-      attr_reader :command
-
-      def self.google_cse_id
-        ENV["GOOGLE_CSE_ID"]
-      end
-
-      def self.google_cse_key
-        ENV["GOOGLE_CSE_KEY"]
-      end
-
-      def self.google_safe_search
-        ENV["GOOGLE_SAFE_SEARCH"] || "high"
-      end
+      attr_reader :command, :team
 
       def initialize(command)
+        @team    = Team.find_by(team_id: command.team_id)
         @command = command
+      end
+
+      def google_safe_search
+        if team && team.value("GOOGLE_SAFE_SEARCH")
+          team.value("GOOGLE_SAFE_SEARCH")
+        else
+          "high"
+        end
+      end
+
+      def google_cse_id
+        team && team.value("GOOGLE_CSE_ID")
+      end
+
+      def google_cse_key
+        team && team.value("GOOGLE_CSE_KEY")
       end
 
       def image
@@ -35,18 +40,29 @@ module Slackmos
       end
 
       def results
-        (1..count).map { image }
+        (1..count).map { image }.compact
       end
 
       def images
+        @images ||= find_images
+      end
+
+      def find_images
+        items = fetch_images
+        if items && items["items"]
+          items["items"].map { |item| item["link"] }
+        else
+          []
+        end
+      end
+
+      def fetch_images
         response = client.get do |request|
           request.url callback_uri.path
           request.params = query_params
           request.headers["Content-Type"] = "application/json"
         end
-
-        items = JSON.parse(response.body)["items"]
-        items.map { |item| item["link"] }
+        JSON.parse(response.body)
       rescue StandardError => e
         Rails.logger.info "Unable to post back to slack: '#{e.inspect}'"
       end
@@ -55,10 +71,10 @@ module Slackmos
         q = {
           q: command.command_text,
           searchType: "image",
-          safe: self.class.google_safe_search,
+          safe: google_safe_search,
           fields: "items(link)",
-          cx: self.class.google_cse_id,
-          key: self.class.google_cse_key
+          cx: google_cse_id,
+          key: google_cse_key
         }
         if command.command == "/animate"
           q[:fileType] = "gif"
