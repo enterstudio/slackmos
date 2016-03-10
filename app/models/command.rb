@@ -10,8 +10,8 @@ class Command < ApplicationRecord
       jesus = Slackmos::Commands::Jesus.new
       postback_message(text: jesus.image, response_type: "in_channel")
     when "/dance"
-      jesus = Slackmos::Commands::Jesus.new
-      postback_message(text: jesus.image, response_type: "in_channel")
+      dance_party = Slackmos::Commands::DanceParty.new
+      postback_message(text: dance_party.image, response_type: "in_channel")
     else
       Rails.logger.info "Unhandled command #{id}"
     end
