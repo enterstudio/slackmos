@@ -90,9 +90,7 @@ module Slackmos
           "http://cdn.lstoll.net/dump/jesus/Wasted-Life-500x375.jpg",
           "http://cdn.lstoll.net/dump/jesus/Welder-Jesus-500x374.jpg",
           "http://cdn.lstoll.net/dump/jesus/Why-Jesus-Why-500x419.jpg",
-          "http://cdn.lstoll.net/dump/jesus/Why-Would-I-Lie-500x375.jpg",
-          "http://cdn.lstoll.net/dump/jesus/forkparty_red.jpg",
-          "http://cdn.lstoll.net/dump/jesus/tr_logo.jpg"
+          "http://cdn.lstoll.net/dump/jesus/Why-Would-I-Lie-500x375.jpg"
         ]
       end
       # rubocop:enable Metrics/MethodLength
