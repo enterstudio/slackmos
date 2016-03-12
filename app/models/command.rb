@@ -54,12 +54,12 @@ class Command < ApplicationRecord
   def text_response(lines)
     {
       response_type: "in_channel",
-      attachments: lines.map do |line|
+      attachments: [
         {
-          text: line,
+          text: lines.join("\n"),
           color: "#ffffff"
         }
-      end
+      ]
     }
   end
 
