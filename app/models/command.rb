@@ -52,7 +52,6 @@ class Command < ApplicationRecord
       request.body = message.to_json
       request.headers["Content-Type"] = "application/json"
     end
-
     Rails.logger.info response.body unless response.body == "ok"
   rescue StandardError => e
     Rails.logger.info "Unable to post back to slack: '#{e.inspect}'"

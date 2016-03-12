@@ -52,6 +52,10 @@ module CommandDispatcher
     when "/complete"
       complete = Slackmos::Commands::Complete.new(self)
       postback_message(multiline_text_response(complete.results))
+    when "/khanify"
+      khanify = Slackmos::Commands::Khanify.new(self)
+      Rails.logger.info(image_response(khanify.results))
+      postback_message(image_response(khanify.results))
     else
       Rails.logger.info "Unhandled command #{id}"
     end

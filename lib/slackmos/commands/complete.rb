@@ -1,6 +1,6 @@
 module Slackmos
   module Commands
-    # Pugs for great motivation
+    # Suggestions from google's auto-complete box
     class Complete
       attr_reader :command, :xpath_query
 
