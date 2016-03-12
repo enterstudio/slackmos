@@ -1,7 +1,9 @@
 # A team from the Slack API
 class Team < ApplicationRecord
-  has_many :commands, -> { order "created_at desc" }, primary_key: :team_id
-  has_many :team_settings, dependent: :destroy
+  has_many :users, foreign_key: :slack_team_id
+  has_many :commands, -> { order "created_at desc" },
+    primary_key: :team_id, dependent: :destroy
+  has_many :team_settings
   validates :team_id, uniqueness: true
 
   def setting(key)

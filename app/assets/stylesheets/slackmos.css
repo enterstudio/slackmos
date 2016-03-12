@@ -1,0 +1,9 @@
+body {
+  color: #fff;
+  border-color: #f00;
+  background-color: #000;
+}
+
+.logo-image {
+  border: 2px solid #f00;
+}

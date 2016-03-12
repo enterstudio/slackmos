@@ -7,7 +7,8 @@ class CommandsController < ApplicationController
         command = current_user.create_command_for(params)
         render json: command.default_response.to_json
       else
-        render json: authenticate_payload.to_json
+        @command = Command.from_params(params)
+        render json: authenticate_response.to_json
       end
     else
       render json: {}, status: 404
@@ -30,11 +31,15 @@ class CommandsController < ApplicationController
   end
 
   def slack_login_uri
-    uri = "slack://channel?team=#{params[:team_id]}&id=#{params[:channel_id]}"
-    "#{request.base_url}/auth/slack?origin=#{Base64.encode64(uri).chomp}"
+    options = {
+      uri: "slack://channel?team=#{params[:team_id]}&id=#{params[:channel_id]}",
+      token: @command.id
+    }
+    "#{request.base_url}/auth/slack?origin=" \
+      "#{Slackmos.encode_origin(options)}"
   end
 
-  def authenticate_payload
+  def authenticate_response
     {
       response_type: "in_channel",
       text: "Please <#{slack_login_uri}|sign in> to use this feature."
