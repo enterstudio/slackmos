@@ -5,9 +5,6 @@ RSpec.describe Slackmos::Commands::Complete, type: :model do
     File.join(Rails.root, "spec", "support", "fixtures", "commands", "complete")
   end
 
-  before do
-    #WebMock.allow_net_connect!
-  end
   it "gets 5 results from google suggest" do
     command = command_for("why do dogs")
     handler = Slackmos::Commands::Complete.new(command)
@@ -26,7 +23,7 @@ RSpec.describe Slackmos::Commands::Complete, type: :model do
     end
   end
 
-  it "gets a pug bomb from the index" do
+  it "gets 10 results from google suggest" do
     command = command_for("x10 why do cats")
     handler = Slackmos::Commands::Complete.new(command)
 

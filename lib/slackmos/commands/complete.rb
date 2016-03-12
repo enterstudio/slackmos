@@ -2,15 +2,15 @@ module Slackmos
   module Commands
     # Pugs for great motivation
     class Complete
-      attr_reader :command, :suggestion_xpath
+      attr_reader :command, :xpath_query
 
       def initialize(command)
-        @command          = command
-        @suggestion_xpath = "//CompleteSuggestion/suggestion"
+        @command     = command
+        @xpath_query = "//CompleteSuggestion/suggestion"
       end
 
       def search_string
-        command.command_text.gsub(/x\d+\s*/, '')
+        command.command_text.gsub(/x\d+\s*/, "")
       end
 
       def count
@@ -24,24 +24,27 @@ module Slackmos
       end
 
       def results
-        suggestions[0..count-1]
+        suggestions[0..count - 1]
       end
 
       def suggestions
-        @suggestions ||= suggestions!
+        suggestions_xpath.map { |element| element["data"] }
       end
 
-      def suggestions!
+      def suggestions_xpath
+        @xpath_suggestions ||= suggestions_doc.xpath(xpath_query)
+      end
+
+      def suggestions_doc
         response = client.get do |request|
           request.url callback_uri.path
           request.params = { q: search_string, output: "toolbar" }
           request.headers["Content-Type"] = "application/json"
         end
-        Nokogiri::XML(response.body).xpath(suggestion_xpath).map do |element|
-          element["data"]
-        end
+        Nokogiri::XML(response.body)
       rescue StandardError => e
-        Rails.logger.info "Unable to fetch suggestions from #{callback_url.host} : '#{e.inspect}'"
+        Rails.logger.info "Unable to fetch suggestions from " \
+                            "#{callback_url.host} : '#{e.inspect}'"
       end
 
       def callback_url
@@ -58,4 +61,3 @@ module Slackmos
     end
   end
 end
-
