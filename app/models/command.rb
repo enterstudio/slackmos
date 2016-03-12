@@ -54,12 +54,7 @@ class Command < ApplicationRecord
   def text_response(lines)
     {
       response_type: "in_channel",
-      attachments: [
-        {
-          text: lines.join("\n"),
-          color: "#b3b3cc"
-        }
-      ]
+      attachments: [{ text: lines.join("\n") }]
     }
   end
 
@@ -69,7 +64,6 @@ class Command < ApplicationRecord
       attachments: uris.map do |uri|
         {
           text: " ",
-          color: "#ffffff",
           fallback: "Unable to load that image, sorry.",
           image_url: Slackmos::Commands.camo_uri(uri)
         }
