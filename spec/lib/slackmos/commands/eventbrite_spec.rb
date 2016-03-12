@@ -10,7 +10,11 @@ RSpec.describe Slackmos::Commands::Eventbrite, type: :model do
     command = command_for("bomb")
 
     team = Team.create(team_id: command.team_id)
-    TeamSetting.create(team_id: team.id, key: "EVENTBRITE_TOKEN", value: SecureRandom.hex(12))
+    TeamSetting.create(
+      team_id: team.id,
+      key: "EVENTBRITE_TOKEN",
+      value: SecureRandom.hex(12)
+    )
 
     handler = Slackmos::Commands::Eventbrite.new(command)
 

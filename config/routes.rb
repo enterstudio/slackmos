@@ -1,4 +1,4 @@
-applcation_url = ENV["SLACK_APP_URL"] || "https://github.com/atmos/slackmos"
+application_url = ENV["SLACK_APP_URL"] || "https://github.com/atmos/slackmos"
 
 Rails.application.routes.draw do
   # Serve websocket cable requests in-process
@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   get  "/boomtown"             => "application#boomtown"
   post "/commands"             => "commands#create"
 
-  root to: redirect(applcation_url, status: 302)
+  root to: redirect(application_url, status: 302)
 end

@@ -34,14 +34,17 @@ module Slackmos
       end
 
       def fetch_latest_event
-        response = client.get do |request|
+        response = fetch_response
+        data = JSON.parse(response.body)
+        data && data["events"].last
+      end
+
+      def fetch_response
+        client.get do |request|
           request.url callback_uri.path
           request.headers["Content-Type"] = "application/json"
           request.headers["Authorization"] = "Bearer #{token}"
         end
-
-        data = JSON.parse(response.body)
-        data && data["events"].last
       rescue StandardError => e
         Rails.logger.info e.backtrace.join("\n")
         Rails.logger.info "Unable to post back to slack: '#{e.inspect}'"
@@ -61,4 +64,3 @@ module Slackmos
     end
   end
 end
-
