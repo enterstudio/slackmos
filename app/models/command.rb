@@ -60,9 +60,8 @@ class Command < ApplicationRecord
   def notify_user_of_success!
     user = User.find_by(slack_user_id: slack_user_id)
     if user
-      message = "<@#{user.slack_user_id}|#{user.slack_user_name}> " \
-                  "you're all set. Try '/pug bomb x3'"
-      postback_message(text_response(message))
+      name = "<@#{user.slack_user_id}|#{user.slack_user_name}>"
+      postback_message(text_response("#{name} you're all set. :tada:"))
     end
   end
 

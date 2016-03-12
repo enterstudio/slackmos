@@ -11,5 +11,6 @@ class SignupCompleteJob < ApplicationJob
     end
 
     command.notify_user_of_success!
+    CommandExecutorJob.perform_later(command_id: command.id)
   end
 end
