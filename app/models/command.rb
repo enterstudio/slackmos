@@ -41,6 +41,10 @@ class Command < ApplicationRecord
     when "/complete"
       complete = Slackmos::Commands::Complete.new(self)
       postback_message(text_response(complete.results))
+    when "/khanify"
+      khanify = Slackmos::Commands::Khanify.new(self)
+      Rails.logger.info(image_response(khanify.results))
+      postback_message(image_response(khanify.results))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
@@ -79,7 +83,6 @@ class Command < ApplicationRecord
       request.body = message.to_json
       request.headers["Content-Type"] = "application/json"
     end
-
     Rails.logger.info response.body unless response.body == "ok"
   rescue StandardError => e
     Rails.logger.info "Unable to post back to slack: '#{e.inspect}'"
