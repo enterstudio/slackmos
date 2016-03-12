@@ -38,6 +38,9 @@ class Command < ApplicationRecord
     when "/pizza"
       pizza = Slackmos::Commands::Pizza.new(self)
       postback_message(image_response(pizza.results))
+    when "/complete"
+      complete = Slackmos::Commands::Complete.new(self)
+      postback_message(text_response(complete.results))
     else
       Rails.logger.info "Unhandled command #{id}"
     end
@@ -48,6 +51,18 @@ class Command < ApplicationRecord
     { response_type: "in_channel" }
   end
 
+  def text_response(lines)
+    {
+      response_type: "in_channel",
+      attachments: [
+        {
+          text: lines.join("\n"),
+          color: "#ffffff"
+        }
+      ]
+    }
+  end
+
   def image_response(uris)
     {
       response_type: "in_channel",
@@ -55,7 +70,7 @@ class Command < ApplicationRecord
         {
           text: " ",
           color: "#ffffff",
-          falbackk: "Unable to load that image, sorry.",
+          fallback: "Unable to load that image, sorry.",
           image_url: Slackmos::Commands.camo_uri(uri)
         }
       end
