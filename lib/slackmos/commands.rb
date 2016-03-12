@@ -18,6 +18,7 @@ module Slackmos
   end
 end
 
+require_relative "./commands/complete"
 require_relative "./commands/dance_party"
 require_relative "./commands/eventbrite"
 require_relative "./commands/favstar"
