@@ -46,7 +46,7 @@ class Team < ApplicationRecord
       if !body["items"].nil? && !body["items"].empty?
         "Google Custom Search Engine is properly configured."
       else
-        "Google Custom Search Engine is misconfigured."
+        "Google Custom Search Engine isn't configured for this team."
       end
     end
   end

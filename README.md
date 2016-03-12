@@ -5,17 +5,9 @@
 
 ## Usage
 
-```console
-/img me pugs
-```
+Currently supported commands:
 
-```console
-/animate corgi puppies
-```
-
-```console
-/dance party x10
-```
+![commands](https://cloud.githubusercontent.com/assets/38/13723081/5a86c6c0-e80e-11e5-907e-88b17bf4c61f.png)
 
 ## Development
 
