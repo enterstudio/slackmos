@@ -15,6 +15,7 @@ RSpec.configure do |config|
 
   config.include(WebMock::API)
   config.before do
+    WebMock.reset!
     WebMock.disable_net_connect!
   end
 

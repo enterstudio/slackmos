@@ -1,60 +1,33 @@
 # A command a Slack User issued
 class Command < ApplicationRecord
-  belongs_to :user
+  include CommandDispatcher
 
+  belongs_to :user
   before_validation :extract_cli_args, on: :create
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/CyclomaticComplexity
-  def run
-    case command
-    when "/pug"
-      pugs = Slackmos::Commands::Pugs.new(self)
-      postback_message(image_response(pugs.results))
-    when "/jesus"
-      jesus = Slackmos::Commands::Jesus.new(self)
-      postback_message(image_response(jesus.results))
-    when "/dance"
-      dance_party = Slackmos::Commands::DanceParty.new(self)
-      postback_message(image_response(dance_party.results))
-    when "/nope", "/yep"
-      nope = Slackmos::Commands::Nope.new(self)
-      postback_message(image_response(nope.results))
-    when "/define"
-      definition = Slackmos::Commands::UrbanDictionary.new(self)
-      postback_message(definition.response_message)
-    when "/eventbrite"
-      definition = Slackmos::Commands::Eventbrite.new(self)
-      postback_message(definition.response_message)
-    when "/classic"
-      favstar = Slackmos::Commands::Favstar.new(self)
-      text = favstar.tweet
-      text = "No classic tweets from #{command_text}" if favstar.tweets.empty?
-      postback_message(response_type: "in_channel", text: text)
-    when "/img", "/animate"
-      google_images = Slackmos::Commands::GoogleImages.new(self)
-      postback_message(image_response(google_images.results))
-    when "/pizza"
-      pizza = Slackmos::Commands::Pizza.new(self)
-      postback_message(image_response(pizza.results))
-    when "/complete"
-      complete = Slackmos::Commands::Complete.new(self)
-      postback_message(text_response(complete.results))
-    else
-      Rails.logger.info "Unhandled command #{id}"
-    end
+  def team
+    @team ||= begin
+                Team.find_or_create_by(team_id: team_id) do |team|
+                  team.team_domain = team_domain
+                end
+              end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def default_response
     { response_type: "in_channel" }
   end
 
-  def text_response(lines)
+  def multiline_text_response(lines)
     {
       response_type: "in_channel",
       attachments: [{ text: lines.join("\n") }]
+    }
+  end
+
+  def text_response(message)
+    {
+      text: message,
+      response_type: "in_channel"
     }
   end
 
@@ -64,8 +37,8 @@ class Command < ApplicationRecord
       attachments: uris.map do |uri|
         {
           text: " ",
-          fallback: "Unable to load that image, sorry.",
-          image_url: Slackmos::Commands.camo_uri(uri)
+          fallback: "This is a really sweet image you're missing out on.",
+          image_url: uri
         }
       end
     }

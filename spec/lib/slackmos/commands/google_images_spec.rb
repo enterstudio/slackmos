@@ -8,16 +8,15 @@ RSpec.describe Slackmos::Commands::GoogleImages, type: :model do
   it "gets a random top image from google images api" do
     command = command_for("pugs")
 
-    team = Team.create(team_id: command.team_id)
-    TeamSetting.create(team_id: team.id, key: "GOOGLE_CSE_ID", value: "id")
-    TeamSetting.create(team_id: team.id, key: "GOOGLE_CSE_KEY", value: "key")
+    command.team.team_settings.create(key: "GOOGLE_CSE_ID", value: "id")
+    command.team.team_settings.create(key: "GOOGLE_CSE_KEY", value: "key")
 
     handler = Slackmos::Commands::GoogleImages.new(command)
 
     pug_json = File.read(File.join(fixture_path, "google_images", "pugs.json"))
 
-    query = "?cx=id&fields=items(link)&key=key&q=pugs&" \
-              "safe=high&searchType=image"
+    query = "?cx=id&fields=items(link)&imgSize=large&key=key" \
+              "&num=10&q=pugs&safe=medium&searchType=image"
     stub_request(:get, "#{handler.callback_url}#{query}")
       .to_return(status: 200, body: pug_json, headers: {})
 
@@ -35,7 +34,8 @@ RSpec.describe Slackmos::Commands::GoogleImages, type: :model do
 
     unauthed = File.read(File.join(fixture_path, "google_images", "400.json"))
 
-    query = "?cx&fields=items(link)&key&q=pugs&safe=high&searchType=image"
+    query = "?cx&fields=items(link)&imgSize=large&key&num=10&" \
+              "q=pugs&safe=medium&searchType=image"
     stub_request(:get, "#{handler.callback_url}#{query}")
       .to_return(status: 400, body: unauthed, headers: {})
 
@@ -46,9 +46,8 @@ RSpec.describe Slackmos::Commands::GoogleImages, type: :model do
     command = command_for("corgis")
     command.command = "/animate"
 
-    team = Team.create(team_id: command.team_id)
-    TeamSetting.create(team_id: team.id, key: "GOOGLE_CSE_ID", value: "id")
-    TeamSetting.create(team_id: team.id, key: "GOOGLE_CSE_KEY", value: "key")
+    command.team.team_settings.create(key: "GOOGLE_CSE_ID", value: "id")
+    command.team.team_settings.create(key: "GOOGLE_CSE_KEY", value: "key")
 
     handler = Slackmos::Commands::GoogleImages.new(command)
 
@@ -56,8 +55,8 @@ RSpec.describe Slackmos::Commands::GoogleImages, type: :model do
       File.join(fixture_path, "google_images", "corgis.json"))
 
     query_string = "?cx=id&fields=items(link)&fileType=gif&" \
-      "hq=animated&key=key&q=corgis&safe=high&searchType=image&" \
-      "tbs=itp:animated"
+      "hq=animated&imgSize=large&key=key&num=10&q=corgis&safe=" \
+      "medium&searchType=image&tbs=itp:animated"
     stub_request(:get, "#{handler.callback_url}#{query_string}")
       .to_return(status: 200, body: corgis_json, headers: {})
 
