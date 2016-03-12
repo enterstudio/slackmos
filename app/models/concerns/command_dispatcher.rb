@@ -43,8 +43,7 @@ module CommandDispatcher
       if results.any?
         postback_message(image_response(google_images.results))
       else
-        msg = "Google Custom Search Engine isn't configured for this team."
-        postback_message(text_response(msg))
+        postback_message(text_response(google_images.team.google_cse_status))
       end
     when "/pizza"
       pizza = Slackmos::Commands::Pizza.new(self)

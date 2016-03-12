@@ -35,15 +35,40 @@ class Team < ApplicationRecord
     safe if safe && !safe.empty?
   end
 
+  def google_cse_status
+    response = google_cse_call
+    body = JSON.parse(response.body)
+
+    case google_cse_call.status
+    when 400, 403
+      "Google Custom Search Error: #{body['error']['message']}"
+    when 200
+      if !body["items"].nil? && !body["items"].empty?
+        "Google Custom Search Engine is properly configured."
+      else
+        "Google Custom Search Engine is misconfigured."
+      end
+    end
+  end
+
   def google_cse_configured?
-    response = client.get do |request|
+    body = JSON.load(google_cse_call.body)
+    !body["items"].nil? && !body["items"].empty?
+  end
+
+  def google_cse_call
+    @google_cse_call ||= google_cse_call!
+  end
+
+  def google_cse_call!
+    client.get do |request|
       request.url "/customsearch/v1"
       request.params = google_cse_params
       request.headers["Content-Type"] = "application/json"
     end
-    response_body = JSON.load(response.body)
-    !response_body["items"].nil? && !response_body["items"].empty?
   rescue StandardError
+    Rails.logger.info response.status
+    Rails.logger.info response.body
     false
   end
 
