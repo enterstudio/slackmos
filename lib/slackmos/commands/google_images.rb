@@ -5,28 +5,20 @@ module Slackmos
       attr_reader :command, :team
 
       def initialize(command)
-        @team    = Team.find_by(team_id: command.team_id)
+        @team    = command.team
         @command = command
       end
 
       def google_safe_search
-        if team && team.value("GOOGLE_SAFE_SEARCH")
-          team.value("GOOGLE_SAFE_SEARCH")
-        else
-          "high"
-        end
+        (team && team.google_cse_safe_search) || "medium"
       end
 
       def google_cse_id
-        team && team.value("GOOGLE_CSE_ID")
+        team && team.google_cse_id
       end
 
       def google_cse_key
-        team && team.value("GOOGLE_CSE_KEY")
-      end
-
-      def image
-        images.sample
+        team && team.google_cse_key
       end
 
       def count
@@ -40,7 +32,7 @@ module Slackmos
       end
 
       def results
-        (1..count).map { image }.compact
+        (1..count).map { images.sample }.compact
       end
 
       def images
@@ -62,24 +54,29 @@ module Slackmos
           request.params = query_params
           request.headers["Content-Type"] = "application/json"
         end
+        Rails.logger.info response.body
         JSON.parse(response.body)
       rescue StandardError => e
         Rails.logger.info "Unable to post back to slack: '#{e.inspect}'"
+        nil
       end
 
+      # https://developers.google.com/custom-search/json-api/v1/reference/cse/list#parameters
       def query_params
         q = {
           q: command.command_text,
-          searchType: "image",
+          cx: google_cse_id,
+          num: 10,
+          key: google_cse_key,
           safe: google_safe_search,
           fields: "items(link)",
-          cx: google_cse_id,
-          key: google_cse_key
+          searchType: "image",
+          imgSize: "large"
         }
         if command.command == "/animate"
-          q[:fileType] = "gif"
           q[:hq] = "animated"
           q[:tbs] = "itp:animated"
+          q[:fileType] = "gif"
         end
         q
       end

@@ -1,6 +1,7 @@
 # A user from the Slack API
 class User < ApplicationRecord
-  has_many :commands, dependent: :destroy
+  has_many :commands
+  belongs_to :team, primary_key: :team_id, required: false
 
   def create_command_for(params)
     command = commands.create(

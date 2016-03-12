@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -x
 git log -n 1 HEAD | cat
@@ -15,4 +15,13 @@ bundle exec rake db:migrate
 bundle exec rake assets:precompile >/dev/null 2>&1
 bundle exec rspec spec
 bundle exec rubocop
-bundle exec brakeman
+
+echo ""
+echo -n Running brakeman:
+bundle exec brakeman > /tmp/brakeman$$.txt 2>&1
+if [ "$?" != "0" ]; then
+  echo " failed."
+  cat /tmp/brakeman$$.txt
+else
+  echo " done."
+fi
