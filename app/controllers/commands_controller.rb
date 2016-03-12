@@ -3,9 +3,9 @@ class CommandsController < ApplicationController
   protect_from_forgery with: :null_session
   def create
     if slack_token_valid?
+      @command = Command.from_params(params)
       if current_user
-        command = current_user.create_command_for(params)
-        render json: command.default_response.to_json
+        render json: @command.default_response.to_json
       else
         render json: authenticate_payload.to_json
       end
@@ -30,8 +30,12 @@ class CommandsController < ApplicationController
   end
 
   def slack_login_uri
-    uri = "slack://channel?team=#{params[:team_id]}&id=#{params[:channel_id]}"
-    "#{request.base_url}/auth/slack?origin=#{Base64.encode64(uri).chomp}"
+    options = {
+      uri: "slack://channel?team=#{params[:team_id]}&id=#{params[:channel_id]}",
+      token: @command.id
+    }
+    "#{request.base_url}/auth/slack?origin=" \
+      "#{Slackmos.encode_origin(options)}"
   end
 
   def authenticate_payload

@@ -5,4 +5,10 @@ class ApplicationController < ActionController::Base
   def boomtown
     raise("Intentional exception from the web app")
   end
+
+  private
+
+  def current_user
+    @current_user ||= User.find(session[:user_id])
+  end
 end

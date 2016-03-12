@@ -1,5 +1,5 @@
-# Job to handle command execution
-class CommandExecutorJob < ApplicationJob
+# Job to handle notifying the user that they're done signing up
+class SignupCompleteJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
@@ -10,8 +10,7 @@ class CommandExecutorJob < ApplicationJob
       team.team_domain = command.team_domain
     end
 
-    command.run
-    command.processed_at = Time.now.utc
-    command.save
+    command.text_response("@#{command.user.slack_user_name} You're all set. "\
+                          "Try '/pug bomb x3'")
   end
 end

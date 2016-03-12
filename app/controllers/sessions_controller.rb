@@ -10,6 +10,25 @@ class SessionsController < ApplicationController
     redirect_to after_successful_slack_user_setup_path
   end
 
+  def create_google
+    Rails.logger.info "Logged in as #{omniauth_info['info']['email']}."
+    redirect_to after_successful_google_user_setup_path
+  end
+
+  def complete
+    @after_success_url = "https://slack.com/messages/general"
+    if params[:origin]
+      decoded = Slackmos.decode_origin(params[:origin])
+
+      @after_success_url = decoded[:uri] if decoded[:uri] =~ /^slack:/
+
+      command = Command.find(decoded[:token])
+      SignupCompleteJob.perform_later(command_id: command.id) if command
+    end
+  rescue StandardError, ActiveRecord::RecordNotFound
+    nil
+  end
+
   def destroy
     session.clear
     redirect_to root_url, notice: "Signed out!"
@@ -17,14 +36,12 @@ class SessionsController < ApplicationController
 
   private
 
+  def after_successful_google_user_setup_path
+    "/auth/complete?origin=#{omniauth_origin}"
+  end
+
   def after_successful_slack_user_setup_path
-    if omniauth_origin
-      Base64.decode64(omniauth_origin)
-    else
-      root_url
-    end
-  rescue
-    root_url
+    "/auth/google_oauth2?origin=#{omniauth_origin}"
   end
 
   def omniauth_origin

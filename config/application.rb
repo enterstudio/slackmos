@@ -19,11 +19,6 @@ module Slackmos
 
     config.active_job.queue_adapter = :sidekiq
 
-    config.lograge.enabled = true
-    config.lograge.custom_options = lambda do |event|
-      { request_id: event.payload[:request_id] }
-    end
-
     config.generators do |g|
       g.assets = false
       g.helper = false

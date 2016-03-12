@@ -1,4 +1,5 @@
 ENV["SLACK_APP_URL"] = "https://slack.com/apps/manage/A0QS72-slash-hubot-deploy"
+
 ENV["SLACK_SLASH_COMMAND_TOKEN"] = "secret-slack-token"
 
 require "webmock"
@@ -44,6 +45,26 @@ RSpec.configure do |config|
 
     OmniAuth::AuthHash.new(provider: "slack",
                            uid: "U024YG08X",
+                           info: info,
+                           credentials: credentials)
+  end
+
+  def google_omniauth_hash_for_atmos
+    info = {
+      name: "Corey Donohoe",
+      first_name: "Donohoe",
+      last_name: "Corey",
+      email: "atmos@atmos.org",
+      image: "https://lh3.googleusercontent.com/-3XZvZiEfr_c/AAAAAAAAAAI/AAAAAAAAACo/luBamazvxvM/photo.jpg"
+    }
+    credentials = {
+      token: SecureRandom.hex(24),
+      expires: true,
+      expires_at: 6.hours.from_now
+    }
+
+    OmniAuth::AuthHash.new(provider: "google_oauth2",
+                           uid: "9018796622324100135828",
                            info: info,
                            credentials: credentials)
   end

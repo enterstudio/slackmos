@@ -14,13 +14,16 @@ RSpec.describe "Slackmos /commands", type: :request do
 
   it "links to login + origin if you need to authenticate" do
     post "/commands", params: default_params(text: "ps")
-
-    origin = "slack://channel?team=T123YG08V&id=C99NNAY74"
-    encoded_origin = Base64.encode64(origin).chomp
-
     expect(status).to eql(200)
     response_body = JSON.parse(body)
     expect(response_body["response_type"]).to eql("in_channel")
+
+    origin = {
+      uri: "slack://channel?team=T123YG08V&id=C99NNAY74",
+      token: Command.last.id
+    }
+
+    encoded_origin = Slackmos.encode_origin(origin)
     link = "Please <http://www.example.com/auth/slack?origin=" \
            "#{encoded_origin}|sign in> to use this feature."
     expect(response_body["text"]).to eql(link)
