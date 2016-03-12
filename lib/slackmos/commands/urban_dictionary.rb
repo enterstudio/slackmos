@@ -1,5 +1,3 @@
-require "cgi"
-
 module Slackmos
   module Commands
     # Help you understand slang
@@ -17,7 +15,7 @@ module Slackmos
       def definitions
         response = client.get do |request|
           request.url callback_uri.path
-          request.params = { term: CGI.escape(command.command_text) }
+          request.params = { term: command.command_text }
         end
 
         JSON.parse(response.body)["list"]
