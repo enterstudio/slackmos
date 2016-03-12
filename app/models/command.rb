@@ -57,7 +57,7 @@ class Command < ApplicationRecord
       attachments: [
         {
           text: lines.join("\n"),
-          color: "#ffffff"
+          color: "#b3b3cc"
         }
       ]
     }
