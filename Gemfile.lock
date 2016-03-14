@@ -274,7 +274,7 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unicode-display_width (1.0.1)
+    unicode-display_width (1.0.2)
     valcro (0.1)
     web-console (3.1.1)
       activemodel (>= 4.2)
