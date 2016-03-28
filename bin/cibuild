@@ -8,6 +8,8 @@ bundle -v
 set +x
 set -e
 
+exit 1
+
 export RACK_ENV=test
 export RAILS_ENV=test
 
