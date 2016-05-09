@@ -181,7 +181,7 @@ GEM
       rails_serve_static_assets
       rails_stdout_logging
     rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.4)
+    rails_stdout_logging (0.0.5)
     railties (5.0.0.rc1)
       actionpack (= 5.0.0.rc1)
       activesupport (= 5.0.0.rc1)
@@ -296,7 +296,7 @@ DEPENDENCIES
   puma
   rails (>= 5.0.0.rc1, < 5.1)
   rails_12factor
-  rails_stdout_logging (= 0.0.4)
+  rails_stdout_logging (= 0.0.5)
   rake (< 11.0)
   redis (~> 3.0)
   rspec-rails (= 3.5.0.beta3)
