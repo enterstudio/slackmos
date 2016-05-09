@@ -42,9 +42,8 @@ ActiveRecord::Schema.define(version: 20160312163327) do
     t.string   "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key", "team_id"], name: "team_keys", using: :btree
   end
-
-  add_index "team_settings", ["key", "team_id"], name: "team_keys", using: :btree
 
   create_table "teams", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string "team_id",     null: false
