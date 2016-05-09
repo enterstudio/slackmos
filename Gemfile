@@ -1,8 +1,8 @@
-ruby "2.3.0"
+ruby "2.3.1"
 
 source "https://rubygems.org"
 
-gem "rails", ">= 5.0.0.beta3", "< 5.1"
+gem "rails", ">= 5.0.0.rc1", "< 5.1"
 
 gem "addressable"
 gem "coffee-rails", "~> 4.1.0"
@@ -18,7 +18,7 @@ gem "omniauth-slack", "2.3.0"
 gem "pg"
 gem "puma"
 gem "rake", "<11.0"
-gem "rails_stdout_logging", "0.0.4"
+gem "rails_stdout_logging", "0.0.5"
 gem "redis", "~> 3.0"
 gem "sidekiq"
 gem "sass-rails", "~> 5.0"
@@ -30,7 +30,7 @@ group :development, :test do
   gem "byebug"
   gem "dotenv-rails"
   gem "pry"
-  gem "rspec-rails", "3.5.0.beta2"
+  gem "rspec-rails", "3.5.0.beta3"
   gem "rubocop"
 end
 

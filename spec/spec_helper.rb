@@ -2,7 +2,7 @@ ENV["SLACK_APP_URL"] = "https://slack.com/apps/manage/A0QS72-slash-hubot-deploy"
 
 ENV["SLACK_SLASH_COMMAND_TOKEN"] = "secret-slack-token"
 
-require "webmock"
+require "webmock/rspec"
 require "sidekiq/testing"
 
 RSpec.configure do |config|
