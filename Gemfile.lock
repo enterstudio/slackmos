@@ -194,23 +194,23 @@ GEM
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     redis (3.3.0)
-    rspec-core (3.5.0.beta2)
-      rspec-support (= 3.5.0.beta2)
-    rspec-expectations (3.5.0.beta2)
+    rspec-core (3.5.0.beta3)
+      rspec-support (= 3.5.0.beta3)
+    rspec-expectations (3.5.0.beta3)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.5.0.beta2)
-    rspec-mocks (3.5.0.beta2)
+      rspec-support (= 3.5.0.beta3)
+    rspec-mocks (3.5.0.beta3)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.5.0.beta2)
-    rspec-rails (3.5.0.beta2)
+      rspec-support (= 3.5.0.beta3)
+    rspec-rails (3.5.0.beta3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
-      rspec-core (= 3.5.0.beta2)
-      rspec-expectations (= 3.5.0.beta2)
-      rspec-mocks (= 3.5.0.beta2)
-      rspec-support (= 3.5.0.beta2)
-    rspec-support (3.5.0.beta2)
+      rspec-core (= 3.5.0.beta3)
+      rspec-expectations (= 3.5.0.beta3)
+      rspec-mocks (= 3.5.0.beta3)
+      rspec-support (= 3.5.0.beta3)
+    rspec-support (3.5.0.beta3)
     rubocop (0.39.0)
       parser (>= 2.3.0.7, < 3.0)
       powerpack (~> 0.1)
@@ -299,7 +299,7 @@ DEPENDENCIES
   rails_stdout_logging (= 0.0.4)
   rake (< 11.0)
   redis (~> 3.0)
-  rspec-rails (= 3.5.0.beta2)
+  rspec-rails (= 3.5.0.beta3)
   rubocop
   sass-rails (~> 5.0)
   sidekiq
@@ -310,7 +310,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.3.0p0
+   ruby 2.3.1p112
 
 BUNDLED WITH
    1.12.3

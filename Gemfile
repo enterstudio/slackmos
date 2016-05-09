@@ -1,4 +1,4 @@
-ruby "2.3.0"
+ruby "2.3.1"
 
 source "https://rubygems.org"
 
@@ -30,7 +30,7 @@ group :development, :test do
   gem "byebug"
   gem "dotenv-rails"
   gem "pry"
-  gem "rspec-rails", "3.5.0.beta2"
+  gem "rspec-rails", "3.5.0.beta3"
   gem "rubocop"
 end
 
