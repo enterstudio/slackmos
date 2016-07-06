@@ -50,7 +50,7 @@ class Command < ApplicationRecord
       attachments: uris.map do |uri|
         {
           text: " ",
-          fallback: "This is a really sweet image you're missing out on.",
+          fallback: uri,
           image_url: uri
         }
       end
