@@ -152,7 +152,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    puma (3.4.0)
+    puma (3.12.4)
     rack (2.0.0.rc1)
       json
     rack-test (0.6.3)
@@ -293,7 +293,7 @@ DEPENDENCIES
   omniauth-slack (= 2.3.0)
   pg
   pry
-  puma
+  puma (>= 3.12.4)
   rails (>= 5.0.0.rc1, < 5.1)
   rails_12factor
   rails_stdout_logging (= 0.0.5)
@@ -313,4 +313,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.3
+   1.17.3
