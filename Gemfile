@@ -2,7 +2,7 @@ ruby "2.3.1"
 
 source "https://rubygems.org"
 
-gem "rails", ">= 5.0.0.rc1", "< 5.1"
+gem "rails", "~> 6.0", ">= 6.0.3.5"
 
 gem "addressable"
 gem "coffee-rails", "~> 4.1.0"
