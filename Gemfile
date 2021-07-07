@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 gem "rails", ">= 5.0.0.rc1", "< 5.1"
 
-gem "addressable"
+gem "addressable", ">= 2.8.0"
 gem "coffee-rails", "~> 4.1.0"
 gem "fernet"
 gem "jbuilder", "~> 2.0"
@@ -35,8 +35,8 @@ group :development, :test do
 end
 
 group :test do
-  gem "webmock", require: false
-  gem "capybara"
+  gem "webmock", ">= 2.0.1", require: false
+  gem "capybara", ">= 2.7.1"
   gem "codeclimate-test-reporter", require: nil
 end
 
