@@ -2,12 +2,12 @@ ruby "2.3.1"
 
 source "https://rubygems.org"
 
-gem "rails", ">= 5.0.0.rc1", "< 5.1"
+gem "rails", "~> 6.1", ">= 6.1.7.1"
 
 gem "addressable"
-gem "coffee-rails", "~> 4.1.0"
+gem "coffee-rails", "~> 4.2.2"
 gem "fernet"
-gem "jbuilder", "~> 2.0"
+gem "jbuilder", "~> 2.6", ">= 2.6.4"
 gem "jquery-rails"
 gem "listen"
 gem "lograge"
@@ -21,16 +21,16 @@ gem "rake", "<11.0"
 gem "rails_stdout_logging", "0.0.5"
 gem "redis", "~> 3.0"
 gem "sidekiq"
-gem "sass-rails", "~> 5.0"
+gem "sass-rails", "~> 5.0", ">= 5.0.8"
 gem "turbolinks"
 gem "uglifier", ">= 1.3.0"
 
 group :development, :test do
   gem "brakeman"
   gem "byebug"
-  gem "dotenv-rails"
+  gem "dotenv-rails", ">= 2.7.6"
   gem "pry"
-  gem "rspec-rails", "3.5.0.beta3"
+  gem "rspec-rails", "3.5.0"
   gem "rubocop"
 end
 
@@ -43,7 +43,7 @@ end
 group :development do
   gem "foreman"
   gem "spring"
-  gem "web-console", "~> 3.0"
+  gem "web-console", "~> 3.1", ">= 3.1.1"
 end
 
 group :staging, :production do
